@@ -4,6 +4,10 @@ import * as model from './model.js';
 import RecipeView from '../views/recipeview.js';
 import SearchResultView from '../views/searchView';
 import RenderViewSearch from '../views/RenderView.js';
+import RenderPaginationView from '../views/PaginationView.js';
+if (module.hot) {
+  module.hot.accept();
+}
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -46,7 +50,8 @@ const controlSearchResult = async function () {
     SearchResultView.clearField();
     await model.searchResults(query);
 
-    RenderViewSearch.render(model.state.search.result);
+    RenderViewSearch.render(model.SearchResultPage(6));
+    RenderPaginationView.render(model.state.search);
   } catch (err) {
     console.error(err);
   }
